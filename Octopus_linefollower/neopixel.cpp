@@ -5,61 +5,14 @@
 #include "neopixel.h"
 
 
-Neopixel::Neopixel() {
-		FastLED.addLeds<NEOPIXEL, _PIN_NEOPIXEL>(_pixel, 1);
-		_updatePixel(CRGB::Black);
-	}
+Neopixel::Neopixel() : pixels(1, PIN_WS, NEO_GRB + NEO_KHZ800) {
+	pixels.begin();
+}
 
-	void Neopixel::_updatePixel(CRGB _color) {
-		static CRGB col = 0;
+void Neopixel::setColor(byte r, byte g, byte b) {
+	pixels.setPixelColor(0, pixels.Color(r/2, g/2, b/2));
+	pixels.show();
+}
 
-		if (_color != col) {
-			col = _color;
-			_pixel[0] = _color;
-			FastLED.show();
-		}
-	}
-
-	void Neopixel::forceColor(CRGB rgb) {
-		_pixel[0] = rgb;
-		FastLED.show();
-	}
-
-	void Neopixel::setColor(CRGB rgb) {
-		_color = rgb;
-	}
-
-	void Neopixel::setBlink(bool blink) {
-		_blinking = blink;
-		_blink_delay = ALARM_BLINK_DELAY;
-	}
-
-	void Neopixel::setBlink(bool blink, int dylej) {
-		_blinking = blink;
-		_blink_delay = dylej;
-	}
-
-	void Neopixel::loop() {
-		static unsigned long last_millis = 0;
-		static bool blink = LOW;
-
-		if (_blinking) {
-			if (millis() - last_millis > _blink_delay) {
-				last_millis = millis();
-
-				blink = !blink;
-
-				if (blink) {
-					_updatePixel(CRGB::Black);
-				}
-				else {
-					_updatePixel(_color);
-				}
-			}
-		}
-		else {
-			_updatePixel(_color);
-		}
-	}
 
 

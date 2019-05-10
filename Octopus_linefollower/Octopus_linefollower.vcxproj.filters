@@ -16,12 +16,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Octopus_linefollower.ino" />
+    <None Include="functions.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Octopus_linefollower.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="definitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="octopuslibrary.h">

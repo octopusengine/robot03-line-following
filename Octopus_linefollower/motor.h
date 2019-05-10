@@ -3,7 +3,7 @@
 #ifndef _MOTOR_h
 #define _MOTOR_h
 
-#include "definitions.h"
+#include "octopuslibrary.h"
 
 #define PMOTO_FORWARD PIN_MOTOR1A
 #define PMOTO_BACKWARD PIN_MOTOR2A
@@ -24,14 +24,7 @@ public:
 	Motor();
 	void setLeft(int speed);
 	void setRight(int speed);
-
-private:
-	void initMotor();
 };
-
-
-
-
 
 #endif
 

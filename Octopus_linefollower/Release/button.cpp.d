@@ -1,8 +1,6 @@
 C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\button.cpp.o: \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\button.cpp \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\button.h \
- C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\definitions.h \
- C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\octopuslibrary.h \
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32/Arduino.h \
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/newlib/stdint.h \
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/newlib/machine/_default_types.h \

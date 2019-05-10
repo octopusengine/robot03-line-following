@@ -129,54 +129,8 @@ C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-dev
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32/Arduino.h \
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\variants\doitESP32devkitV1/pins_arduino.h \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\sensor.h \
- C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\definitions.h \
- C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\octopuslibrary.h \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\neopixel.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/FastLED.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/cpp_compat.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/FastLED.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastled_config.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/led_sysdefs.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/platforms/esp/32/led_sysdefs_esp32.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastled_delay.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/bitswap.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/controller.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/pixeltypes.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/lib8tion.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/lib8tion/math8.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/lib8tion/scale8.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/lib8tion/scale8.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/lib8tion/random8.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/lib8tion/trig8.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/color.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastpin.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastspi_types.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/dmx.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/platforms.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/platforms/esp/32/fastled_esp32.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/platforms/esp/32/fastpin_esp32.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/platforms/esp/32/clockless_esp32.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32/esp32-hal.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/driver/driver/rmt.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/soc/soc/rmt_reg.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/soc/soc/dport_reg.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/soc/soc/dport_access.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/esp32/esp_dport_access.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/soc/soc/uart_reg.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/soc/soc/rmt_struct.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/esp_ringbuf/freertos/ringbuf.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/freertos/freertos/queue.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/driver/driver/periph_ctrl.h \
- C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/soc/soc/periph_defs.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastled_progmem.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/hsv2rgb.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/colorutils.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/pixelset.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/colorpalettes.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/noise.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/power_mgt.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastspi.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/fastspi_bitbang.h \
- C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\FastLED/chipsets.h \
+ C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\Adafruit_NeoPixel/Adafruit_NeoPixel.h \
+ C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\octopuslibrary.h \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\button.h \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\motor.h
