@@ -1,4 +1,5 @@
 
+#include "BluetoothSerial.h"
 
 #include "sensor.h"
 #include "neopixel.h"
@@ -11,12 +12,10 @@
 #define GREEN 0,255,0
 #define ORANGE 255,128,0
 #define RED 255,0,0
-#define PURPLE 255,255,0
+#define PURPLE 255,0,255
+#define YELLOW 255,255,0
 
-
-#define SERIAL_BAUD 115200
-
-
+#define SERIAL_BAUD 250000
 
 //modules
 #define PIN_BUTTON PIN_SERVO3
@@ -30,17 +29,16 @@
 
 #define SENSOR_COUNT 4
 
-const int CYCLES_PER_SECOND = 500;
+int CPS = 10000; //Program cycles per second (used for PID, to have constant behaviour)
+int CPS_debug = 100;
+
 
 int speed_forward = 90;
 int speed_correction = 90;
+int speed_backOnTrack = 90;
 
-//more in pid file
-float kK = 1; //1 - constant of error "quadratic" bending
-float pK = 0.75; //0.75 - p constant of pid regulator
-float dK = 100; //100-120 - d constant of pid regualtor
-float iK = 0; //0 - i constant of pid regulator - in our case non-usable
-int n_EMA = 10; //5-10 - the length of sorrection smoothing exponencial moving average
+float pK = 1.0; //0.75 - p constant of pid regulator
+float dK = 30; //100-120 - d constant of pid regualtor
 
 bool debug = false;
 
@@ -58,14 +56,15 @@ double error;
 int speed_left;
 int speed_right;
 
-bool running;
-bool outOfTrack;
-bool lastTurnRight;
+bool flag_running;
+bool flag_outOfTrack;
+bool flag_lastTrackRight;
+bool flag_lastTrackLeft;
 
 void setup() {
 	// the minimal speed depends on CYCLES_PER_SECOND defined
 	Serial.begin(SERIAL_BAUD);
-	Serial.println("Start");
+	//Serial.println("Start");
 
 	analogReadResolution(10);
 
@@ -80,6 +79,12 @@ void setup() {
 	if (button.read())
 	{
 		debug = true;
+		CPS = CPS_debug;
+
+		neopixel.setColor(WHITE);
+		delay(100);
+		neopixel.setColor(BLACK);
+		delay(100);
 		neopixel.setColor(WHITE);
 		delay(100);
 		neopixel.setColor(BLACK);
@@ -92,13 +97,20 @@ void setup() {
 
 	while (button.read()) delay(1);
 
-	Serial.println("Setup done");
+	//Serial.println("Setup done");
 }
 
 
 
 void loop() {
 
+	static unsigned long lastCycleMicros = 0;
+	static unsigned long lastCPSMicros = 0;
+
+	static unsigned long RCPS = 0; //cycles per second
+	static unsigned long ECPS = 0; //empty cycles per second
+
+	neopixel.setColor(BLACK);
 	neopixel.setColor(BLUE);
 	while (!button.read()) delay(1);
 	while (button.read()) delay(1);
@@ -112,20 +124,45 @@ void loop() {
 		while (button.read()) delay(1);
 		delay(250);
 
-		running = true;
+		flag_running = true;
 
-		while (!button.read() && running) {
+		while (flag_running) {
+			unsigned long mcrs;
 
-			readTrack();
-			apllyCorrection();
-			calculateError();
-			calculateSpeed();
-			if (!debug) {
-				setMotors();
+			mcrs = micros();
+			if (mcrs - lastCycleMicros >= 1000000 / CPS || mcrs < lastCycleMicros) {
+				lastCycleMicros = mcrs;
+
+				readTrack();
+				apllyCorrection();
+				calculateError();
+				applyRegulator();
+				calculateSpeed();
+				if (!debug) {
+					setMotors();
+				}
+				else {
+					printValues();
+					delay(10);
+				}
+
+				RCPS++;
 			}
 			else {
-				printValues();
+				ECPS++;
 			}
+
+			mcrs = micros();
+			if (mcrs - lastCPSMicros >= 1000000 || mcrs < lastCPSMicros) {
+				lastCPSMicros = mcrs;
+				Serial.println("CPS = " + String(RCPS) + ", ECPS = " + String(ECPS));
+				RCPS = ECPS = 0;
+			}
+
+			if (button.read()) {
+				flag_running = false;
+			}
+
 		}
 
 		//if the button is pressed stop the motors
@@ -156,7 +193,8 @@ void calibrate() {
 		}
 	}
 
-	printRedingsMinMax();
+	if(debug)
+		printRedingsMinMax();
 
 	while (button.read()) delay(1);
 }
@@ -170,13 +208,20 @@ void readTrack() {
 
 void apllyCorrection() {
 
-	for (int i = 0; i < SENSOR_COUNT; i++) {
-		if (reading[i] > reading_max[i])
-			reading[i] = reading_max[i];
-		if (reading[i] < reading_min[i])
-			reading[i] = reading_min[i];
+	byte min_tolerance = 25; //procent
+	byte max_tolerance = 5;
 
-		reading[i] = map(reading[i], reading_min[i], reading_max[i], 0, 900);
+	for (int i = 0; i < SENSOR_COUNT; i++) {
+
+		int min = reading_min[i] + ((reading_max[i] - reading_min[i]) * (min_tolerance / 100.0));
+		int max = reading_max[i] + ((reading_max[i] - reading_min[i]) * (max_tolerance / 100.0));
+
+		if (reading[i] > max)
+			reading[i] = max;
+		if (reading[i] < min)
+			reading[i] = min;
+
+		reading[i] = map(reading[i], min, max, 0, 900);
 	}
 
 }
@@ -185,28 +230,27 @@ void calculateError() {
 	int soucet1 = reading[0] * 1 + reading[1] * 2 + reading[2] * 3 + reading[3] * 4;
 	int soucet2 = reading[0] + reading[1] + reading[2] + reading[3];
 
-
 	if (soucet1 < 0) {
 		digitalWrite(BUILT_IN_LED, HIGH);
 		Serial.println("!!! Zaporny soucet - asi pretekl");
-		running = false;
+		flag_running = false;
 		error = 0.0;
 		return;
 	}
 
-	if (soucet2 == 0 ) {
-		if (!outOfTrack) {
+	if (soucet2 == 0) {
+		if (!flag_outOfTrack) {
 			neopixel.setColor(PURPLE);
-			outOfTrack = true;
+			flag_outOfTrack = true;
 		}
 		error = 0.0;
 		return;
 	}
 
 	else {
-		if (outOfTrack) {
+		if (flag_outOfTrack) {
 			neopixel.setColor(GREEN);
-			outOfTrack = false;
+			flag_outOfTrack = false;
 		}
 	}
 
@@ -214,17 +258,58 @@ void calculateError() {
 	error = error - 2.5;
 	error = error / 1.5;
 
-	if (error > 0.0) {
-		lastTurnRight = true;
+	if (reading[0] > 0) {
+		flag_lastTrackLeft = true;
+		flag_lastTrackRight = false;
 	}
-	else {
-		lastTurnRight = false;
+	else if (reading[SENSOR_COUNT - 1] > 0) {
+		flag_lastTrackLeft = false;
+		flag_lastTrackRight = true;
 	}
+	if ((reading[0] == 0 && reading[1] > 0) || (reading[SENSOR_COUNT - 2] > 0 && reading[SENSOR_COUNT - 1] == 0)) {
+		flag_lastTrackLeft = false;
+		flag_lastTrackRight = false;
+	}
+
+}
+
+void applyRegulator() {
+	static double error_last = 0;
+
+	double correction = error;
+
+	//P
+	correction = correction * pK;
+
+	//D
+	double difference = error - error_last;
+	correction = correction + difference * dK;
+
+	error_last = error;
+
+	error = correction;
 }
 
 void calculateSpeed() {
-	speed_left = speed_forward + error * speed_correction;
-	speed_right = speed_forward - error * speed_correction;
+
+	if (flag_outOfTrack) {
+		if (flag_lastTrackRight) {
+			speed_left = speed_backOnTrack;
+			speed_right = -speed_backOnTrack;
+		}
+		else if (flag_lastTrackLeft) {
+			speed_left = -speed_backOnTrack;
+			speed_right = speed_backOnTrack;
+		}
+		else {
+			speed_left = speed_forward;
+			speed_right = speed_forward;
+		}
+	}
+	else {
+		speed_left = speed_forward + error * speed_correction;
+		speed_right = speed_forward - error * speed_correction;
+	}
 }
 
 void setMotors() {
