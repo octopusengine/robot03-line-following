@@ -17,6 +17,9 @@
 
 #define SERIAL_BAUD 250000
 
+#define ROBOT_NAME "Octopus LineFollower"
+
+
 //modules
 #define PIN_BUTTON PIN_SERVO3
 #define PIN_NEOPIXEL PIN_WS
@@ -29,16 +32,16 @@
 
 #define SENSOR_COUNT 4
 
-int CPS = 10000; //Program cycles per second (used for PID, to have constant behaviour)
+int CPS = 500; //Program cycles per second (used for PID, to have constant behaviour)
 int CPS_debug = 100;
 
 
-int speed_forward = 90;
-int speed_correction = 90;
-int speed_backOnTrack = 90;
+int speed_forward = 150;
+int speed_correction = 150;
+int speed_backOnTrack = 150;
 
-float pK = 1.0; //0.75 - p constant of pid regulator
-float dK = 30; //100-120 - d constant of pid regualtor
+float pK = 0.8; //0.75 - p constant of pid regulator
+float dK = 60; //100-120 - d constant of pid regualtor
 
 bool debug = false;
 
@@ -61,10 +64,15 @@ bool flag_outOfTrack;
 bool flag_lastTrackRight;
 bool flag_lastTrackLeft;
 
+BluetoothSerial SerialBT;
+
 void setup() {
 	// the minimal speed depends on CYCLES_PER_SECOND defined
 	Serial.begin(SERIAL_BAUD);
+	Serial.setTimeout(1);
 	//Serial.println("Start");
+	SerialBT.begin(ROBOT_NAME);
+	SerialBT.setTimeout(1);
 
 	analogReadResolution(10);
 
@@ -106,6 +114,7 @@ void loop() {
 
 	static unsigned long lastCycleMicros = 0;
 	static unsigned long lastCPSMicros = 0;
+	static unsigned long lastBTMicros = 0;
 
 	static unsigned long RCPS = 0; //cycles per second
 	static unsigned long ECPS = 0; //empty cycles per second
@@ -159,6 +168,12 @@ void loop() {
 				RCPS = ECPS = 0;
 			}
 
+			mcrs = micros();
+			if (mcrs - lastBTMicros >= 100000 || mcrs < lastBTMicros) {
+				lastBTMicros = mcrs;
+				BT_update();
+			}
+
 			if (button.read()) {
 				flag_running = false;
 			}
@@ -171,6 +186,53 @@ void loop() {
 
 		//wait for button unpress
 		while (button.read()) delay(1);
+	}
+}
+
+void BT_update() {
+
+	SerialBT.print("m LL: " + String(reading[0]));
+	SerialBT.print(", L: " + String(reading[1]));
+	SerialBT.print(", P: " + String(reading[2]));
+	SerialBT.println(", PP: " + String(reading[3]));
+
+	if (SerialBT.available()) {
+		String message = SerialBT.readString();
+
+		uint8_t channel = message[0];
+		long value = message.substring(1).toInt();
+
+		switch (channel)
+		{
+		case 'S':
+			SerialBT.println("s " + String(value));
+
+			speed_forward = value;
+			speed_correction = value;
+			speed_backOnTrack = value;
+			break;
+		case 'P':
+			SerialBT.println("p " + String(value/ 1000.0));
+
+			pK = value / 1000.0;
+			break;
+		case 'D':
+			SerialBT.println("d " + String(value / 1000.0));
+
+			dK = value / 1000.0;
+			break;
+		case 'B':
+			if (value == 1) {
+				flag_running = !flag_running;
+			}
+			break;
+		default:
+			break;
+		}
+
+		while (SerialBT.available())
+			SerialBT.read();
+
 	}
 }
 
@@ -193,7 +255,7 @@ void calibrate() {
 		}
 	}
 
-	if(debug)
+	if (debug)
 		printRedingsMinMax();
 
 	while (button.read()) delay(1);
@@ -208,7 +270,7 @@ void readTrack() {
 
 void apllyCorrection() {
 
-	byte min_tolerance = 25; //procent
+	byte min_tolerance = 75; //procent
 	byte max_tolerance = 5;
 
 	for (int i = 0; i < SENSOR_COUNT; i++) {

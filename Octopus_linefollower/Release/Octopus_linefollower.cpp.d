@@ -128,6 +128,9 @@ C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-dev
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32/Esp.h \
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32/Arduino.h \
  C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\variants\doitESP32devkitV1/pins_arduino.h \
+ C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2\libraries\BluetoothSerial\src/BluetoothSerial.h \
+ C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/bt/esp_spp_api.h \
+ C:\Users\PC\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.2/tools/sdk/include/bt/esp_bt_defs.h \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\sensor.h \
  C:\Users\PC\AppData\Local\Temp\VMBuilds\Octopus_linefollower\esp32_esp32doit-devkit-v1\Release\neopixel.h \
  C:\Users\PC\Disk\ Google\SW\ Projekty\Arduino\Arduino\ IDE\libraries\Adafruit_NeoPixel/Adafruit_NeoPixel.h \
